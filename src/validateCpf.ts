@@ -39,21 +39,17 @@ export function validate(str: string) {
                         let nDigResult;
                         d1 = d2 = 0;
                         dg1 = dg2 = rest = 0;
-
                         for (let nCount = 1; nCount < str.length - 1; nCount++) {
                             // if (isNaN(parseInt(str.substring(nCount -1, nCount)))) {
                             // 	return false;
                             // } else {
-
                             digito = parseInt(str.substring(nCount - 1, nCount));
                             d1 = d1 + (11 - nCount) * digito;
 
                             d2 = d2 + (12 - nCount) * digito;
                             // }
                         };
-
                         rest = (d1 % 11);
-
                         // se for menor que 2 é 0, senão é 11 menos o resto
                         dg1 = (rest < 2) ? dg1 = 0 : 11 - rest;
                         d2 += 2 * dg1;
@@ -66,15 +62,12 @@ export function validate(str: string) {
                         let nDigVerific = str.substring(str.length - 2, str.length);
                         nDigResult = "" + dg1 + "" + dg2;
                         return nDigVerific == nDigResult;
-
                         // se der problema...
                     } catch (e) {
                         console.error("Erro !" + e);
-
                         return false;
                     }
                 } else return false;
-
             } else return false;
         } else return false;
     } else return false;
