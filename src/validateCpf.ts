@@ -58,7 +58,6 @@ export function validate(str: string) {
                             dg2 = 0;
                         else
                             dg2 = 11 - rest;
-
                         let nDigVerific = str.substring(str.length - 2, str.length);
                         nDigResult = "" + dg1 + "" + dg2;
                         return nDigVerific == nDigResult;
