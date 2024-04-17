@@ -1,10 +1,10 @@
 /*Pontos de refatoração:
 - linhas em branco dentro de método, delete, e aumente o line hight da IDE.
+- código morto: código comentado, simplesmente apague, é pra isso que existe git. Se for usar de vez enguando, faz feature-flag.
 - nome sem sentido com o proposito do processo a ser resolvido, a começar pela Classe, método e seus membros internos (variáveis, etc..)
 - não misturar portugues com english
 - comentários tentando exclarecer o código obscuro
 - numeros mágicos
-- código morto: código comentado, simplesmente apague, é pra isso que existe git. Se for usar de vez enguando, faz feature-flag.
 - fragmento de código duplicado, extraia para um método.
 - variaveis declaradas longe da utilizacao. Declare próximo do uso.
 - condições confusas, apresentadas por aninhamentos, ficando longe da marge. Resolva negando primeiro, chamada de clausula guarda.
@@ -24,12 +24,7 @@ export function validate(str: string) {
     if (str !== null) {
         if (str !== undefined) {
             if (str.length >= 11 && str.length <= 14) {
-                // cleaning cpf
-                str = str
-                    .replace('.', '')
-                    .replace('.', '')
-                    .replace('-', '')
-                    .replace(" ", "");
+                str = clean(str);
                 // tudo igual
                 if (!str.split("").every(c => c === str[0])) {
                     try {
@@ -65,4 +60,8 @@ export function validate(str: string) {
             } else return false;
         } else return false;
     } else return false;
+
+    function clean(cpf: string) {
+        return cpf.replace('.', '').replace('.', '').replace('-', '').replace(" ", "");
+    }
 }
