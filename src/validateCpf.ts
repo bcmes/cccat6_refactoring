@@ -20,29 +20,29 @@
     - Auto-Validado: Ter boas validações
     - Timely: Idealmente devem ser escritos antes do código
 */
-export function validate(str: string) {
-    if (str === null) return false;
-    if (str === undefined) return false;
-    str = clean(str);
-    if (!isValidLength(str)) return false;
-    if (allDigitsEquals(str)) return false;
+export function validate(cpf: string) {
+    if (cpf === null) return false;
+    if (cpf === undefined) return false;
+    cpf = clean(cpf);
+    if (!isValidLength(cpf)) return false;
+    if (allDigitsEquals(cpf)) return false;
+
     let d1 = 0;
     let d2 = 0;
-    for (let nCount = 1; nCount < str.length - 1; nCount++) {
-        const digito = parseInt(str.substring(nCount - 1, nCount));
+    for (let nCount = 1; nCount < cpf.length - 1; nCount++) {
+        const digito = parseInt(cpf.substring(nCount - 1, nCount));
         d1 = d1 + (11 - nCount) * digito;
         d2 = d2 + (12 - nCount) * digito;
     };
     let rest = (d1 % 11);
-    // se for menor que 2 é 0, senão é 11 menos o resto
     let dg1 = (rest < 2) ? 0 : 11 - rest;
     d2 += 2 * dg1;
     rest = (d2 % 11);
     let dg2 = (rest < 2) ? 0 : 11 - rest;
-    let nDigVerific = str.slice(9);
+
+    let nDigVerific = cpf.slice(9);
     const nDigResult = `${dg1}${dg2}`;
     return nDigVerific == nDigResult;
-    // se der problema...
 
     function isValidLength(cpf: string) {
         return cpf.length === 11;
