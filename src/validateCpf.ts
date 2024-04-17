@@ -3,8 +3,8 @@
 - código morto: código comentado, simplesmente apague, é pra isso que existe git. Se for usar de vez enguando, faz feature-flag.
 - nome sem sentido com o proposito do processo a ser resolvido, a começar pela Classe, método e seus membros internos (variáveis, etc..)
 - não misturar portugues com english
-- comentários tentando exclarecer o código obscuro
-- numeros mágicos
+- comentários tentando exclarecer o código obscuro. Retire o comentario e refatore, com funcoes internas, etc..
+- numeros mágicos, crie constantes.
 - fragmento de código duplicado, extraia para um método.
 - variaveis declaradas longe da utilizacao. Declare próximo do uso.
 - condições confusas, apresentadas por aninhamentos, ficando longe da marge. Resolva negando primeiro, chamada de clausula guarda.
@@ -26,28 +26,21 @@ export function validate(str: string) {
     str = clean(str);
     if (!isValidLength(str)) return false;
     if (allDigitsEquals(str)) return false;
-    let d1, d2;
-    let dg1, dg2, rest;
-    let digito;
-    let nDigResult;
-    d1 = d2 = 0;
-    dg1 = dg2 = rest = 0;
+    let d1 = 0;
+    let d2 = 0;
     for (let nCount = 1; nCount < str.length - 1; nCount++) {
-        digito = parseInt(str.substring(nCount - 1, nCount));
+        const digito = parseInt(str.substring(nCount - 1, nCount));
         d1 = d1 + (11 - nCount) * digito;
         d2 = d2 + (12 - nCount) * digito;
     };
-    rest = (d1 % 11);
+    let rest = (d1 % 11);
     // se for menor que 2 é 0, senão é 11 menos o resto
-    dg1 = (rest < 2) ? dg1 = 0 : 11 - rest;
+    let dg1 = (rest < 2) ? 0 : 11 - rest;
     d2 += 2 * dg1;
     rest = (d2 % 11);
-    if (rest < 2)
-        dg2 = 0;
-    else
-        dg2 = 11 - rest;
-    let nDigVerific = str.substring(str.length - 2, str.length);
-    nDigResult = "" + dg1 + "" + dg2;
+    let dg2 = (rest < 2) ? 0 : 11 - rest;
+    let nDigVerific = str.slice(9);
+    const nDigResult = `${dg1}${dg2}`;
     return nDigVerific == nDigResult;
     // se der problema...
 
