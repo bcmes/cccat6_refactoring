@@ -62,6 +62,6 @@ export function validate(str: string) {
     } else return false;
 
     function clean(cpf: string) {
-        return cpf.replace('.', '').replace('.', '').replace('-', '').replace(" ", "");
+        return cpf.replace(/\D/g, '')
     }
 }
