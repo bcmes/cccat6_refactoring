@@ -25,8 +25,7 @@ export function validate(str: string) {
         if (str !== undefined) {
             if (str.length >= 11 && str.length <= 14) {
                 str = clean(str);
-                // tudo igual
-                if (!str.split("").every(c => c === str[0])) {
+                if (!allDigitsEquals(str)) {
                     try {
                         let d1, d2;
                         let dg1, dg2, rest;
@@ -60,6 +59,10 @@ export function validate(str: string) {
             } else return false;
         } else return false;
     } else return false;
+
+    function allDigitsEquals(cpf: string) {
+        return cpf.split("").every(c => c === cpf[0]);
+    }
 
     function clean(cpf: string) {
         return cpf.replace(/\D/g, '')
