@@ -40,14 +40,10 @@ export function validate(str: string) {
                         d1 = d2 = 0;
                         dg1 = dg2 = rest = 0;
                         for (let nCount = 1; nCount < str.length - 1; nCount++) {
-                            // if (isNaN(parseInt(str.substring(nCount -1, nCount)))) {
-                            // 	return false;
-                            // } else {
                             digito = parseInt(str.substring(nCount - 1, nCount));
                             d1 = d1 + (11 - nCount) * digito;
 
                             d2 = d2 + (12 - nCount) * digito;
-                            // }
                         };
                         rest = (d1 % 11);
                         // se for menor que 2 é 0, senão é 11 menos o resto
