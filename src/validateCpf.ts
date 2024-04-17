@@ -24,36 +24,38 @@
 const FACTOR_FIRST_DIGIT = 10;
 const FACTOR_SECOND_DIGIT = 11;
 
-export function validate(cpf: string) {
-    if (cpf === null) return false;
-    if (cpf === undefined) return false;
-    cpf = clean(cpf);
+export function validate(rawCpf: string) {
+    if (!rawCpf) return false;
+    const cpf = removeNonDigits(rawCpf);
     if (!isValidLength(cpf)) return false;
-    if (allDigitsEquals(cpf)) return false;
-    const dg1 = calculateDigit(cpf, FACTOR_FIRST_DIGIT);
-    const dg2 = calculateDigit(cpf, FACTOR_SECOND_DIGIT);
-    let nDigVerific = cpf.slice(9);
-    const nDigResult = `${dg1}${dg2}`;
-    return nDigVerific == nDigResult;
+    if (allDigitsEqual(cpf)) return false;
+    const firstDigit = calculateDigit(cpf, FACTOR_FIRST_DIGIT);
+    const secondDigit = calculateDigit(cpf, FACTOR_SECOND_DIGIT);
+    return extractDigit(cpf) === `${firstDigit}${secondDigit}`;
+}
 
-    function calculateDigit(cpf: string, factor: number) {
-        let total = 0;
-        for (const digit of cpf) {
-            if (factor > 1) total += parseInt(digit) * factor--;
-        }
-        const remainder = total % 11;
-        return (remainder < 2) ? 0 : 11 - remainder;
-    }
+function removeNonDigits(cpf: string) {
+    return cpf.replace(/\D/g, "");
+}
 
-    function isValidLength(cpf: string) {
-        return cpf.length === 11;
-    }
+function isValidLength(cpf: string) {
+    return cpf.length === 11;
+}
 
-    function allDigitsEquals(cpf: string) {
-        return cpf.split("").every(c => c === cpf[0]);
-    }
+function allDigitsEqual(cpf: string) {
+    const [firstDigit] = cpf;
+    return cpf.split("").every(digit => digit === firstDigit);
+}
 
-    function clean(cpf: string) {
-        return cpf.replace(/\D/g, '')
+function calculateDigit(cpf: string, factor: number) {
+    let total = 0;
+    for (const digit of cpf) {
+        if (factor > 1) total += parseInt(digit) * factor--;
     }
+    const remainder = total % 11;
+    return (remainder < 2) ? 0 : 11 - remainder;
+}
+
+function extractDigit(cpf: string) {
+    return cpf.slice(9);
 }
