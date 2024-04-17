@@ -20,29 +20,30 @@
     - Auto-Validado: Ter boas validações
     - Timely: Idealmente devem ser escritos antes do código
 */
+
+const FACTOR_FIRST_DIGIT = 10;
+const FACTOR_SECOND_DIGIT = 11;
+
 export function validate(cpf: string) {
     if (cpf === null) return false;
     if (cpf === undefined) return false;
     cpf = clean(cpf);
     if (!isValidLength(cpf)) return false;
     if (allDigitsEquals(cpf)) return false;
-
-    let d1 = 0;
-    let d2 = 0;
-    for (let nCount = 1; nCount < cpf.length - 1; nCount++) {
-        const digito = parseInt(cpf.substring(nCount - 1, nCount));
-        d1 = d1 + (11 - nCount) * digito;
-        d2 = d2 + (12 - nCount) * digito;
-    };
-    let rest = (d1 % 11);
-    let dg1 = (rest < 2) ? 0 : 11 - rest;
-    d2 += 2 * dg1;
-    rest = (d2 % 11);
-    let dg2 = (rest < 2) ? 0 : 11 - rest;
-
+    const dg1 = calculateDigit(cpf, FACTOR_FIRST_DIGIT);
+    const dg2 = calculateDigit(cpf, FACTOR_SECOND_DIGIT);
     let nDigVerific = cpf.slice(9);
     const nDigResult = `${dg1}${dg2}`;
     return nDigVerific == nDigResult;
+
+    function calculateDigit(cpf: string, factor: number) {
+        let total = 0;
+        for (const digit of cpf) {
+            if (factor > 1) total += parseInt(digit) * factor--;
+        }
+        const remainder = total % 11;
+        return (remainder < 2) ? 0 : 11 - remainder;
+    }
 
     function isValidLength(cpf: string) {
         return cpf.length === 11;
